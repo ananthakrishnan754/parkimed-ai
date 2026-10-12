@@ -1,0 +1,16 @@
+{
+  "sample_rate_hz": 100,
+  "audio_rate_hz": 16000,
+  "window_size": 300,
+  "window_overlap": 150,
+  "n_mfcc": 13,
+  "input_shapes": {
+    "voice": 39,
+    "motion": 36,
+    "tap": 20,
+    "spiral": 15
+  },
+  "on_off_threshold": 0.5,
+  "severity_range": [0.0, 5.0],
+  "feature_order": ["voice", "motion", "tap", "spiral"]
+}

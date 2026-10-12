@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/tapCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Taps: 0"
+            android:textColor="@color/text_primary"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Tap anywhere below with two fingers, alternately, for 10 seconds."
+            android:textColor="@color/text_secondary"
+            android:textSize="15sp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="420dp"
+            android:layout_marginTop="16dp">
+
+            <View
+                android:id="@+id/tapArea"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/card" />
+
+            <com.parkimed.ai.ui.DemoRippleView
+                android:id="@+id/demoRipples"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/demoRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/btnDemoTap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/danger"
+                android:text="Demo: Patient Tapping (real PD data)"
+                android:textColor="@color/bg" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnDone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="@color/primary"
+            android:text="Analyze"
+            android:textColor="@color/bg" />
+    </LinearLayout>
+</ScrollView>

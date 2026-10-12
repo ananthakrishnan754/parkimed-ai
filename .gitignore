@@ -1,0 +1,35 @@
+# ---- Python ----
+venv/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+
+# ---- Models (generated; scripts in src/ regenerate them) ----
+models/*_savedmodel/
+models/*.keras
+models/parkimed_sm/
+
+# ---- Data: keep the small real CSVs, drop raw archives/extracts ----
+data/raw/remap/
+data/raw/uci_spiral/
+data/raw/*.zip
+data/raw/mock_*/
+data/raw/parkinsons_specialised/
+data/features/
+outputs/
+
+# ---- Android ----
+ParkiMed-Android/.gradle/
+ParkiMed-Android/local.properties
+ParkiMed-Android/.idea/
+ParkiMed-Android/**/build/
+*.apk
+*.iml
+
+# ---- OS/editor ----
+.DS_Store
+# kotlin session logs
+ParkiMed-Android/.kotlin/
+reports/report_body.html

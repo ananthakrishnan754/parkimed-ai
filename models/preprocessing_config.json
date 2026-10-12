@@ -1,0 +1,44 @@
+{
+  "model_version": 3,
+  "inputs": {
+    "voice": 39,
+    "motion": 36,
+    "tap": 20,
+    "spiral": 15,
+    "visual": 20,
+    "gait": 24
+  },
+  "visual_feature_columns": [
+    "speed_median_trimmed",
+    "frequency_quartile_range_trimmed",
+    "amplitude_mean_denoised",
+    "period_quartile_range_denoised",
+    "periodVarianceNorm_trimmed",
+    "period_max_trimmed",
+    "num_peaks_trimmed",
+    "num_peaks_denoised",
+    "periodEntropy_trimmed",
+    "period_entropy_trimmed",
+    "speed_quartile_range_trimmed",
+    "amplitude_max_denoised",
+    "amplitude_decrement_end_to_mean_trimmed",
+    "frequency_stdev_trimmed",
+    "period_stdev_trimmed",
+    "aperiodicity_trimmed",
+    "amplitude_min_denoised",
+    "frequency_min_trimmed",
+    "speed_quartile_range_denoised",
+    "amplitude_decrement_end_to_mean_denoised"
+  ],
+  "visual_feature_source": "ROC-HCI MediaPipe (repo feature_extraction.py)",
+  "head_accs": {
+    "voice": 0.9230769276618958,
+    "spiral": 0.9268292784690857,
+    "visual": 0.5714285969734192,
+    "gait_on_off": 0.6373056769371033
+  },
+  "on_off_semantics": "[P(PD/OFF-med), P(ON)]; index1 = P(ON)",
+  "severity_semantics": "P(PD) * avg(modality sev scale) in 0..1 (app x5)",
+  "sources": "real: UCI speech + UCI telemonitoring + UCI spiral(id395) + ROC-HCI tapping + REMAP gait(ON/OFF med)",
+  "notes": "motion/tap reserved (touch-screen heads pending); gait = camera Kinect turns (ON/OFF med)"
+}

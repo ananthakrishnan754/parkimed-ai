@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>ParkiMed Project Report</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="report.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">ParkiMed Project Report</h1>
+</header>
+<h1
+id="parkimed--smartphone-based-parkinsons-medication-monitoring">ParkiMed
+— Smartphone-Based Parkinson's Medication Monitoring</h1>
+<h2 id="project-report--status-phase-912">Project Report &amp; Status
+(Phase 9/12)</h2>
+<p><strong>Adaptive Multimodal Fusion Framework for Smartphone-Based
+Medication Monitoring for Parkinson's Disease</strong></p>
+<table>
+<tbody>
+<tr class="odd">
+<td><strong>Team</strong></td>
+<td>Sahila Kasseem, Ayush N, Karthik M S, Adithyadev A</td>
+</tr>
+<tr class="even">
+<td><strong>Report date</strong></td>
+<td>19 September 2026</td>
+</tr>
+<tr class="odd">
+<td><strong>Working phase</strong></td>
+<td>Milestone 9 — Model integrated on Android; end-to-end test</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="1-project-overview">1. Project Overview</h2>
+<p>Parkinson's disease patients take medications such as Levodopa, but a
+doctor cannot continuously observe whether the medicine is working.
+Symptoms fluctuate during the day — <strong>ON</strong> (medicine
+working, symptoms controlled) and <strong>OFF</strong> (symptoms
+returning). Today, monitoring is infrequent, subjective, and
+expensive.</p>
+<p><strong>ParkiMed</strong> is an offline Android app that collects
+<strong>voice</strong>, <strong>motion</strong>,
+<strong>finger-tapping</strong>, and <strong>spiral drawing</strong>
+from the phone's built-in sensors, fuses them with an adaptive
+multimodal AI model, and predicts the patient's medication <strong>state
+(ON/OFF)</strong> and <strong>severity</strong> in real time. Everything
+runs on the device (TensorFlow Lite) — no internet, no extra hardware,
+private by design.</p>
+<p><strong>Key innovation:</strong> adaptive attention-based fusion —
+the model learns to trust the most reliable sensors for each sample and
+down-weights noisy or absent ones.</p>
+<hr />
+<h2 id="2-objectives">2. Objectives</h2>
+<ol type="1">
+<li>Collect four sensor modalities on a standard smartphone (voice,
+accelerometer/gyro, touchscreen taps, spiral drawing).</li>
+<li>Build a multimodal fusion model that outputs <strong>ON/OFF
+state</strong> and <strong>severity</strong> offline.</li>
+<li>Export the model to <strong>TensorFlow Lite</strong> so inference is
+fast and private on-device.</li>
+<li>Persist results locally (Room database) and show a
+<strong>historical severity trend</strong>.</li>
+<li>Sync to a <strong>doctor dashboard</strong> (Firebase) whenever the
+device is online.</li>
+<li>Validate on a <strong>real Android phone</strong> and on
+<strong>real clinical data</strong>.</li>
+</ol>
+<hr />
+<h2 id="3-system-architecture">3. System Architecture</h2>
+<pre><code>  PATIENT                    PHONE                         CLOUD / DOCTOR
+  says /a/     ──→  mic records       ──┐
+  walks 30 s   ──→  accel/gyro      ──┤
+  taps 10×     ──→  touch events    ──┤──→ TFLite Model
+  draws spiral ──→  canvas path     ──┘       │
+                                             ↓
+                                    ON/OFF + severity
+                                             │
+                              ┌──────────────┼───────────────┐
+                              ↓                             ↓
+                        SQLite (local)             Firebase (online)
+                              │                             │
+                              ↓                             ↓
+                        Results screen             Doctor Dashboard</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th>Layer</th>
+<th>Technology</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Machine learning</td>
+<td>Python, TensorFlow / Keras, scikit-learn, NumPy, pandas</td>
+</tr>
+<tr class="even">
+<td>On-device inference</td>
+<td>TensorFlow Lite (float16), matched on-device feature extractors in
+Kotlin</td>
+</tr>
+<tr class="odd">
+<td>Android</td>
+<td>Kotlin, Camera/AudioRecord/Sensors, Room (SQLite), WorkManager</td>
+</tr>
+<tr class="even">
+<td>Backend / dashboard</td>
+<td>Flask + Firebase Firestore (patient table, severity chart, data
+export)</td>
+</tr>
+<tr class="odd">
+<td>AutoML / docs</td>
+<td>Baseline comparisons, structured evaluation report</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-datasets">4. Datasets</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Dataset</th>
+<th>Content</th>
+<th>Use</th>
+<th>Access</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>UCI Parkinsons Speech</strong>
+(<code>uci_speech.csv</code>)</td>
+<td>195 real voice recordings (147 PD / 48 healthy) with 22 MDVP
+features (jitter, shimmer, RPDE, DFA, HNR, …)</td>
+<td><strong>PD-vs-healthy classifier</strong> (Model v2)</td>
+<td>Direct download</td>
+</tr>
+<tr class="even">
+<td><strong>UCI Telemonitoring</strong>
+(<code>uci_telemonitoring.csv</code>)</td>
+<td>5,875 real recordings of 42 PD patients with <strong>motor/total
+UPDRS</strong> scores</td>
+<td><strong>Severity regression</strong> (Model v2)</td>
+<td>Direct download</td>
+</tr>
+<tr class="odd">
+<td><strong>mPower (Sage Bionetworks)</strong></td>
+<td>~100k+ task samples (tapping, voice, gait, memory) with
+self-reported ON/OFF</td>
+<td>Motor experts (tap/walk/spiral); ON/OFF ground truth</td>
+<td><strong>Synapse token required</strong> <em>(pending)</em></td>
+</tr>
+<tr class="even">
+<td>Synthetic mock data (12 patients × 10 sessions)</td>
+<td>End-to-end pipeline validation before real data arrived</td>
+<td>Contract/integration testing</td>
+<td>Generated locally</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Combination rule:</strong> datasets are combined <strong>per
+modality</strong>, never as one giant table, so each sensor's model uses
+the data designed for it.</p>
+<hr />
+<h2 id="5-feature-engineering">5. Feature Engineering</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Modality</th>
+<th>Features (dim)</th>
+<th>Method</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Voice</strong> (39)</td>
+<td>Slots 0–15 = real MDVP features: F0, Fhi, Flo, Jitter %,
+Jitter(abs), RAP, PPQ, DDP, Shimmer, Shimmer(dB), APQ3, APQ5, APQ, DDA,
+NHR, HNR; slots 16–38 = 0</td>
+<td>Period-domain autocorrelation extractor (on device and in Python,
+same units)</td>
+</tr>
+<tr class="even">
+<td><strong>Motion</strong> (36)</td>
+<td>Mean/RMS/zero-crossing frequency over 6 channels (accel XYZ + gyro
+XYZ), windowed</td>
+<td>De-gravity windows → per-window stats → mean/std</td>
+</tr>
+<tr class="odd">
+<td><strong>Tap</strong> (20)</td>
+<td>Interval mean/std/quantiles, duration stats, linear slope, CV</td>
+<td>Touch event timing</td>
+</tr>
+<tr class="even">
+<td><strong>Spiral</strong> (15)</td>
+<td>Smoothness, total path, tremor, speed, radial deviation, span</td>
+<td>Canvas path coordinates</td>
+</tr>
+</tbody>
+</table>
+<p>Voice MDVP units were <strong>matched exactly to the UCI
+columns</strong> so real recordings land inside the training
+distribution.</p>
+<hr />
+<h2 id="6-model">6. Model</h2>
+<h3 id="model-v1--synthetic-prototype-proves-the-design">Model v1 —
+synthetic prototype (proves the design)</h3>
+<p>An adaptive-attention fusion network (voice/motion/tap/spiral expert
+blocks → quality gates → softmax attention → weighted fusion → ON/OFF +
+severity) trained on synthetic mock data. It validated the full pipeline
+and the TFLite contract end-to-end.</p>
+<h3 id="problem-found-in-real-use">Problem found in real use</h3>
+<p>A real-user test of v1 surfaced a critical flaw: <strong>severity 5/5
+and ~100% confidence</strong> even when the user was healthy. Root
+cause: the model had only seen synthetic data, so real inputs fell
+<strong>outside its training distribution</strong> and the output
+saturates.</p>
+<h3 id="model-v2--retrained-on-real-data-the-fix-white_check_mark">Model
+v2 — retrained on real data (the fix) ✅</h3>
+<ol type="1">
+<li><strong>Real training data</strong>: PD-vs-healthy voice classifier
+on <code>uci_speech.csv</code>; UPDRS severity regressor on
+<code>uci_telemonitoring.csv</code>.</li>
+<li><strong>Sane semantics</strong>: output
+<code>on_off = [P(PD), P(ON)]</code>, and
+<code>severity = P(PD) × P(UPDRS high)</code>. A healthy person →
+<strong>ON, severity ≈ 0</strong>.</li>
+<li><strong>Pitch bias removed</strong>: the classifier <strong>excludes
+absolute pitch (F0/Fhi/Flo)</strong> — UCI healthy voices average ~182
+Hz while a healthy male sits at 110–130 Hz; using pitch height would
+falsely flag a healthy low-voiced man as PD. Only
+phonation-<strong>quality</strong> features (jitter/shimmer/NHR/HNR)
+drive the state decision.</li>
+<li><strong>On-device MDVP extractor</strong>: same period-domain
+algorithm implemented in Kotlin, units matched to UCI.</li>
+</ol>
+<p><strong>Contract is unchanged</strong> (4 inputs / 2 outputs), so the
+Android inference code needed no changes — only the voice feature
+extractor.</p>
+<hr />
+<h2 id="7-evaluation">7. Evaluation</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Result</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Classifier CV accuracy (13 pitch-independent quality features)</td>
+<td><strong>0.805</strong></td>
+<td>5-fold stratified, RandomForest oracle; deliberately excludes
+pitch</td>
+</tr>
+<tr class="even">
+<td>Classifier CV accuracy (all 16 features incl. pitch)</td>
+<td>0.897</td>
+<td>Higher on paper, but pitch-confounded → rejected for the app</td>
+</tr>
+<tr class="odd">
+<td>Classifier holdout val accuracy (final NN)</td>
+<td><strong>0.949</strong></td>
+<td>20% stratified holdout, early stopping</td>
+</tr>
+<tr class="even">
+<td>Severity regressor RMSE</td>
+<td><strong>≈ 9.6 UPDRS</strong> (norm 0.20)</td>
+<td>Realistic for voice-only severity estimation (telemonitoring)</td>
+</tr>
+<tr class="odd">
+<td>TFLite == Keras</td>
+<td><strong>match on all checked rows</strong></td>
+<td>float16 conversion equivalence</td>
+</tr>
+<tr class="even">
+<td>Pitch-invariance</td>
+<td>healthy rows stay ON at 95/115/130/150 Hz F0</td>
+<td>Fo no longer drives the decision</td>
+</tr>
+<tr class="odd">
+<td>Inference</td>
+<td>&lt; 50 ms on device</td>
+<td>TFLite 9.7 KB, 4 threads</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="8-tflite-export--on-device-contract">8. TFLite Export &amp;
+On-Device Contract</h2>
+<ul>
+<li>Inputs (float32, shape <code>[1, dim]</code>):
+<code>voice[39]</code>, <code>motion[36]</code>, <code>tap[20]</code>,
+<code>spiral[15]</code>.</li>
+<li>Outputs: <code>on_off[1,2]</code> = <code>[P(PD), P(ON)]</code>,
+<code>severity[1,1]</code> = 0–1 (app scales by 5).</li>
+<li>Standardization (mean/std) is <strong>embedded in the graph</strong>
+— only raw features are needed at runtime.</li>
+<li>Android resolves inputs <strong>by dimension</strong> and outputs
+<strong>by width</strong>, making it robust to tensor order.</li>
+<li>The model is force-uncompressed in the APK
+(<code>noCompress tflite</code>) for mmap loading.</li>
+</ul>
+<hr />
+<h2 id="9-android-app">9. Android App</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Voice / Walk / Tap / Spiral task screens</td>
+<td>✅ built, hardened (graceful "no data" / "model not loaded"
+toasts)</td>
+</tr>
+<tr class="even">
+<td>On-device inference (TFLite, 4 threads)</td>
+<td>✅ verified — model probe + real task inference</td>
+</tr>
+<tr class="odd">
+<td>Room persistence (<code>AssessmentRecord</code>)</td>
+<td>✅ all tasks save ON/OFF + severity + confidence + per-modality
+probabilities</td>
+</tr>
+<tr class="even">
+<td>Severity trend chart (dependency-free Canvas)</td>
+<td>✅ renders history as a line chart</td>
+</tr>
+<tr class="odd">
+<td>Cloud sync worker (Firebase)</td>
+<td>✅ offline-tolerant queue; on when <code>google-services.json</code>
+present</td>
+</tr>
+<tr class="even">
+<td>Pill-intake camera detector</td>
+<td>⏳ stub (<code>PillCaptureActivity</code>) — future scope</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="10-project-status--phase-912">10. Project Status — Phase
+9/12</h2>
+<p>We are completing <strong>Milestone 9 — "Model integrated on Android;
+end-to-end test"</strong>. Phases 1–8 are <strong>done and
+phone-verified</strong>; the remaining dashboard/testing/formatting work
+is <strong>Phase 10–12</strong>.</p>
+<h3 id="completed--verified">Completed &amp; verified</h3>
+<ul>
+<li>Full Python pipeline and adaptive-fusion prototype (mock data).</li>
+<li>Real UCI datasets integrated; <strong>Model v2 retrained on real
+data</strong>.</li>
+<li>New on-device MDVP voice extractor (units matched to UCI).</li>
+<li>APK rebuilt with Model v2 + extractor
+(<code>app-debug.apk</code>).</li>
+<li>Prior end-to-end phone verification of persistence, trend chart,
+spiral/tap tasks.</li>
+<li><strong>Model v2 real-voice test PASSED on the phone</strong> (19
+Sep 2026): healthy speaker →
+<strong><code>ON · severity 0.0/5 · confidence 100%</code></strong>
+(Room: <code>2026-09-27 15:05:02</code>). Old synthetic model said
+<code>OFF · 4.99–5.0</code> every time. The healthy-user fix is
+confirmed on real hardware.</li>
+</ul>
+<h3 id="model-v3--full-real-multimodal-fusion-in-progress">Model v3 —
+full real multimodal fusion (in progress)</h3>
+<p>Retrained on <strong>four real datasets</strong> with on-device-safe
+presence gating:</p>
+<ul>
+<li><strong>Real heads:</strong> <code>voice[39]</code> (UCI speech +
+UPDRS telemonitoring, val 0.92–0.95), <code>spiral[15]</code>
+(<strong>UCI Spiral id 395</strong> — 202 real drawings/77 subjects,
+head acc 0.90–0.93), <code>visual[20]</code> (<strong>ROC-HCI</strong> —
+489 real webcam finger-tap samples, 0.57–0.65), <code>gait[24]</code>
+(<strong>REMAP</strong> real Kinect turns; <strong>ON/OFF medication
+classifier leave-subject-out 0.772</strong> — a true motor state
+signal).</li>
+<li><strong>Presence gates</strong> (raw-input norm) let the model
+ignore tasks the user didn't run.</li>
+<li><strong>Demo of the severe condition (3 honest ways):</strong> ①
+play <code>pd_severe_ahh.wav</code> (tremor-modulated PD phonation;
+scores <strong>OFF 5.0/5</strong>), ② debug chips inject <strong>real
+UCI PD/healthy feature vectors</strong>, ③ draw a trembling spiral live
+→ real spiral head fires.</li>
+<li>Exported TFLite 27.7 KB, contract
+<code>voice[39] motion[36] tap[20] spiral[15] visual[20] gait[24]</code>
+→ <code>on_off[2] severity[1]</code>.</li>
+</ul>
+<h3 id="blocked--waiting">Blocked / waiting</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Owner</th>
+<th>Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>google-services.json</code> (Firebase)</td>
+<td>Team / user</td>
+<td>Enables doctor-dashboard sync end-to-end</td>
+</tr>
+<tr class="even">
+<td>mPower Synapse token</td>
+<td>Team / user</td>
+<td>Enables training the motor (tap/walk/spiral) experts so v2 is fully
+multimodal</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="11-known-limitations-documented-for-the-final-report">11. Known
+Limitations (documented for the final report)</h2>
+<ol type="1">
+<li><strong>Touch-screen tap &amp; accelerometer motion heads are
+pending.</strong> Camera-derived tap/gait are real (ROC-HCI/REMAP); the
+touchscreen + accelerometer task screens must wait for a labelled
+on-device dataset (mPower would provide it). Until then their inputs are
+safely gated off.</li>
+<li><strong>Severity is voice-only.</strong> Voice-based UPDRS
+estimation (RMSE ≈ 9.6) is inherently limited compared to a clinical
+motor exam; it is presented as a <em>trend signal</em>, not a
+diagnosis.</li>
+<li><strong>Dataset size.</strong> 195 speech samples is small;
+cross-validation is the honest estimate and the model intentionally
+trades some accuracy (0.897 → 0.805) for robustness against pitch/gender
+confounds — the right trade for a single healthy user's sanity.</li>
+</ol>
+<hr />
+<h2 id="12-next-steps--schedule">12. Next Steps &amp; Schedule</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Week</th>
+<th>Milestone</th>
+<th>Owner</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1–2</td>
+<td>Setup, datasets, pipeline</td>
+<td>All</td>
+<td>✅</td>
+</tr>
+<tr class="even">
+<td>3–5</td>
+<td>Features + voice/motion/tap/spiral models; fusion prototype</td>
+<td>Karthik</td>
+<td>✅</td>
+</tr>
+<tr class="odd">
+<td>6</td>
+<td>Adaptive attention fusion + baselines</td>
+<td>Karthik</td>
+<td>✅</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td>TFLite export verified + Android scaffold</td>
+<td>Ayush</td>
+<td>✅</td>
+</tr>
+<tr class="odd">
+<td>8</td>
+<td>Android sensor collection + task screens</td>
+<td>Ayush</td>
+<td>✅</td>
+</tr>
+<tr class="even">
+<td>9</td>
+<td><strong>Model integrated; end-to-end test</strong></td>
+<td>Ayush + Karthik</td>
+<td>✅</td>
+</tr>
+<tr class="odd">
+<td>9+</td>
+<td><strong>Retrain on real UCI (Model v2)</strong></td>
+<td>Karthik</td>
+<td>✅ done</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>Doctor dashboard v1; report generation</td>
+<td>Ayush</td>
+<td>🔶 dashboard ready, awaits Firebase</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td>Full system testing; latency/accuracy benchmarks</td>
+<td>Adithyadev</td>
+<td>⏳</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>Documentation, final report, demo, presentation</td>
+<td>Sahila</td>
+<td>⏳</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="13-team-task-allocation">13. Team Task Allocation</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Member</th>
+<th>Primary Role</th>
+<th>Key Deliverables</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Sahila Kasseem</strong></td>
+<td>Literature, design, documentation</td>
+<td>Report, presentation, survey</td>
+</tr>
+<tr class="even">
+<td><strong>Ayush N</strong></td>
+<td>App, UI/UX, Firebase, dashboard</td>
+<td>Android app, doctor dashboard, Firebase</td>
+</tr>
+<tr class="odd">
+<td><strong>Karthik M S</strong></td>
+<td>AI model, fusion, OpenCV, TensorFlow</td>
+<td>Training pipeline, fusion, TFLite export, <strong>Model v2 real-data
+retrain</strong></td>
+</tr>
+<tr class="even">
+<td><strong>Adithyadev A</strong></td>
+<td>Testing, performance, reporting</td>
+<td>Test suites, accuracy reports, demo preparation</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="appendix-a--building-the-project">Appendix A — Building the
+Project</h2>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Train Model v2 (real UCI data) + export TFLite</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> parkimed-ai</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="va">CUDA_VISIBLE_DEVICES</span><span class="op">=</span><span class="st">&quot;&quot;</span> <span class="va">PYTHONPATH</span><span class="op">=</span>src <span class="ex">./venv/bin/python</span> <span class="at">-m</span> models.train_real_uci</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Build the Android app (JDK 17, SDK 35/36)</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">gradle</span> <span class="at">--no-daemon</span> :app:assembleDebug <span class="at">-x</span> lint</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># APK: app/build/outputs/apk/debug/app-debug.apk</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Doctor dashboard</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#  python doctor/app.py   (needs GOOGLE_APPLICATION_CREDENTIALS)</span></span></code></pre></div>
+<hr />
+<p><em>ParkiMed — Adaptive Multimodal Fusion Framework for
+Smartphone-Based Medication Monitoring for Parkinson's Disease.</em></p>
+</body>
+</html>

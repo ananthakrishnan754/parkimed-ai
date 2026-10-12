@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ParkiMed"
+        android:textColor="@color/primary"
+        android:textSize="34sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="Medication monitoring for Parkinson's disease"
+        android:textColor="@color/text_secondary"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/btnVoice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="@color/card"
+        android:text="🎤  Voice Test"
+        android:textColor="@color/text_primary" />
+
+    <Button
+        android:id="@+id/btnMove"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/card"
+        android:text="🚶  Movement Test"
+        android:textColor="@color/text_primary" />
+
+    <Button
+        android:id="@+id/btnTap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/card"
+        android:text="👆  Finger Tapping Test"
+        android:textColor="@color/text_primary" />
+
+    <Button
+        android:id="@+id/btnSpiral"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/card"
+        android:text="✏️  Spiral / Handwriting Test"
+        android:textColor="@color/text_primary" />
+
+    <Button
+        android:id="@+id/btnMedication"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/card"
+        android:text="💊  Medication Reminder"
+        android:textColor="@color/text_primary" />
+
+    <Button
+        android:id="@+id/btnResults"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/primary"
+        android:text="Latest Result"
+        android:textColor="@color/bg" />
+
+    <Button
+        android:id="@+id/btnHistory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="@color/card"
+        android:text="📊  History &amp; Reports"
+        android:textColor="@color/text_primary" />
+</LinearLayout>
