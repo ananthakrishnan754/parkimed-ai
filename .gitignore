@@ -33,3 +33,9 @@ ParkiMed-Android/**/build/
 # kotlin session logs
 ParkiMed-Android/.kotlin/
 reports/report_body.html
+
+# ---- Secrets (never commit) ----
+ParkiMed-Android/app/google-services.json
+doctor/parkimed-sa.json
+*.pem
+*.p12
