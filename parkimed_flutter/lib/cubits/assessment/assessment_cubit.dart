@@ -1,7 +1,11 @@
 import 'dart:async';
+import 'dart:typed_data';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/models/assessment_result.dart';
+import '../../core/features/feature_extractor.dart';
+import '../../services/assessment_service.dart';
 import 'assessment_state.dart';
+import '../../core/features/feature_extractor.dart' show Offset;
 
 class AssessmentCubit extends Cubit<AssessmentState> {
   Timer? _countdownTimer;
@@ -20,7 +24,7 @@ class AssessmentCubit extends Cubit<AssessmentState> {
   }
 
   /// Start a Voice Assessment (Phonation "AAAHHH")
-  void startVoiceTask({bool simulateSevere = false}) {
+  void startVoiceTask({bool simulateSevere = false}) async {
     _countdownTimer?.cancel();
     emit(state.copyWith(
       status: AssessmentStatus.active,
@@ -65,41 +69,96 @@ class AssessmentCubit extends Cubit<AssessmentState> {
       activeSecondsRemaining: 0,
     ));
 
-    await Future.delayed(const Duration(milliseconds: 900));
+    try {
+      final pred = simulateSevere
+          ? await AssessmentService.instance.runVoiceDemoSevere()
+          : await AssessmentService.instance.runVoiceDemoHealthy();
 
-    final result = AssessmentResult(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      timestamp: DateTime.now(),
-      state: simulateSevere ? MedicationState.off : MedicationState.on,
-      severity: simulateSevere ? 3.6 : 1.1,
-      confidence: simulateSevere ? 0.89 : 0.94,
-      taskType: AssessmentTaskType.voice,
-      modalityScores: {
-        'Voice (MDVP)': simulateSevere ? 0.22 : 0.92,
-        'Jitter / Shimmer': simulateSevere ? 0.31 : 0.88,
-        'Fundamental Pitch': simulateSevere ? 0.28 : 0.95,
-      },
-      notes: simulateSevere
-          ? 'Elevated micro-tremor in vocal fold phonation. Acoustic features indicate medication wearing off.'
-          : 'Stable fundamental frequency and normal perturbation. Medication is actively functioning.',
-    );
+      final result = AssessmentResult(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        timestamp: DateTime.now(),
+        state: pred.onOff == 'ON' ? MedicationState.on : MedicationState.off,
+        severity: pred.severity,
+        confidence: pred.confidence,
+        taskType: AssessmentTaskType.voice,
+        modalityScores: {
+          'Voice (MDVP)': pred.onOff == 'ON' ? 0.92 : 0.22,
+          'Jitter / Shimmer': pred.onOff == 'ON' ? 0.88 : 0.31,
+          'Fundamental Pitch': pred.onOff == 'ON' ? 0.95 : 0.28,
+        },
+        notes: pred.onOff == 'OFF'
+            ? 'Elevated micro-tremor in vocal fold phonation. Acoustic features indicate medication wearing off.'
+            : 'Stable fundamental frequency and normal perturbation. Medication is actively functioning.',
+      );
 
-    emit(state.copyWith(
-      status: AssessmentStatus.completed,
-      lastResult: result,
-    ));
+      emit(state.copyWith(
+        status: AssessmentStatus.completed,
+        lastResult: result,
+      ));
+    } catch (e) {
+      // Fallback to original logic if model fails to load
+      final result = AssessmentResult(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        timestamp: DateTime.now(),
+        state: simulateSevere ? MedicationState.off : MedicationState.on,
+        severity: simulateSevere ? 3.6 : 1.1,
+        confidence: simulateSevere ? 0.89 : 0.94,
+        taskType: AssessmentTaskType.voice,
+        modalityScores: {
+          'Voice (MDVP)': simulateSevere ? 0.22 : 0.92,
+          'Jitter / Shimmer': simulateSevere ? 0.31 : 0.88,
+          'Fundamental Pitch': simulateSevere ? 0.28 : 0.95,
+        },
+        notes: simulateSevere
+            ? 'Elevated micro-tremor in vocal fold phonation. Acoustic features indicate medication wearing off.'
+            : 'Stable fundamental frequency and normal perturbation. Medication is actively functioning.',
+      );
+      emit(state.copyWith(
+        status: AssessmentStatus.completed,
+        lastResult: result,
+      ));
+    }
   }
 
   /// Complete a Spiral Drawing Assessment from canvas coordinates
   void completeSpiralAssessment({
     required double smoothnessScore, // 0.0 to 1.0
     required double tremorDeviation,
+    List<Offset>? points,
   }) async {
     emit(state.copyWith(
       status: AssessmentStatus.processing,
       currentTask: AssessmentTaskType.spiral,
       liveProgress: 1.0,
     ));
+
+    try {
+      if (points != null && points.isNotEmpty) {
+        final pred = await AssessmentService.instance.runSpiral(points);
+        final isSevere = pred.onOff == 'OFF';
+        final result = AssessmentResult(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          timestamp: DateTime.now(),
+          state: isSevere ? MedicationState.off : MedicationState.on,
+          severity: pred.severity,
+          confidence: pred.confidence,
+          taskType: AssessmentTaskType.spiral,
+          modalityScores: {
+            'Spiral Kinematics': smoothnessScore.clamp(0.1, 1.0),
+            'Tremor Amplitude': (1.0 - tremorDeviation).clamp(0.1, 0.99),
+            'Trajectory Regularity': (smoothnessScore * 0.95).clamp(0.1, 1.0),
+          },
+          notes: isSevere
+              ? 'Tremulous spiral trace detected with deviation from ideal Archimedean path.'
+              : 'Smooth concentric progression with controlled motor velocity.',
+        );
+        emit(state.copyWith(
+          status: AssessmentStatus.completed,
+          lastResult: result,
+        ));
+        return;
+      }
+    } catch (_) {}
 
     await Future.delayed(const Duration(milliseconds: 800));
 
@@ -182,6 +241,32 @@ class AssessmentCubit extends Cubit<AssessmentState> {
       liveProgress: 1.0,
     ));
 
+    try {
+      // Use demo tap (visual head) if model available, matching original behavior
+      final pred = await AssessmentService.instance.runTapDemo();
+      final totalTaps = state.liveMetrics['tapCount'] as int? ?? 0;
+      final result = AssessmentResult(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        timestamp: DateTime.now(),
+        state: pred.onOff == 'ON' ? MedicationState.on : MedicationState.off,
+        severity: pred.severity,
+        confidence: pred.confidence,
+        taskType: AssessmentTaskType.tap,
+        modalityScores: {
+          'Tapping Speed': (totalTaps / 45.0).clamp(0.1, 1.0),
+          'Rhythm Stability': pred.onOff == 'OFF' ? 0.42 : 0.91,
+        },
+        notes: pred.onOff == 'OFF'
+            ? 'Bradykinesia and slowing of rhythm noted. Tap cadence decelerated over the 10s window.'
+            : 'High amplitude and regular alternating cadence maintained.',
+      );
+      emit(state.copyWith(
+        status: AssessmentStatus.completed,
+        lastResult: result,
+      ));
+      return;
+    } catch (_) {}
+
     await Future.delayed(const Duration(milliseconds: 800));
 
     final totalTaps = state.liveMetrics['tapCount'] as int? ?? 0;
@@ -229,6 +314,31 @@ class AssessmentCubit extends Cubit<AssessmentState> {
     }
 
     emit(state.copyWith(status: AssessmentStatus.processing));
+    try {
+      final pred = await AssessmentService.instance.runGaitDemo();
+      final result = AssessmentResult(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        timestamp: DateTime.now(),
+        state: pred.onOff == 'ON' ? MedicationState.on : MedicationState.off,
+        severity: pred.severity,
+        confidence: pred.confidence,
+        taskType: AssessmentTaskType.walk,
+        modalityScores: {
+          'Stride Cadence': pred.onOff == 'ON' ? 0.94 : 0.35,
+          'Turning Hesitation': pred.onOff == 'ON' ? 0.90 : 0.28,
+          'Kinematic Balance': pred.onOff == 'ON' ? 0.92 : 0.38,
+        },
+        notes: pred.onOff == 'OFF'
+            ? 'Asymmetry in stride interval with hesitation during turning sequence.'
+            : 'Smooth step velocity and fluid directional pivot detected.',
+      );
+      emit(state.copyWith(
+        status: AssessmentStatus.completed,
+        lastResult: result,
+      ));
+      return;
+    } catch (_) {}
+
     await Future.delayed(const Duration(milliseconds: 700));
 
     final result = AssessmentResult(

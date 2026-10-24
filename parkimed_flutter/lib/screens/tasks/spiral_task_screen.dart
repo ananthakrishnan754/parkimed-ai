@@ -5,6 +5,7 @@ import '../../cubits/assessment/assessment_cubit.dart';
 import '../../cubits/assessment/assessment_state.dart';
 import '../../cubits/history/history_cubit.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/features/feature_extractor.dart' show Offset;
 import '../results/results_screen.dart';
 
 class SpiralTaskScreen extends StatefulWidget {
@@ -82,9 +83,11 @@ class _SpiralTaskScreenState extends State<SpiralTaskScreen> {
     final smoothnessScore = (1.0 - (avgJitter / 12.0)).clamp(0.2, 0.96);
     final tremorDeviation = (avgJitter / 10.0).clamp(0.1, 0.95);
 
+    final pts = validPoints.map((e) => Offset(e.dx, e.dy)).toList();
     context.read<AssessmentCubit>().completeSpiralAssessment(
           smoothnessScore: smoothnessScore,
           tremorDeviation: tremorDeviation,
+          points: pts,
         );
   }
 

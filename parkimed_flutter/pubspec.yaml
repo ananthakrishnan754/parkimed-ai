@@ -39,6 +39,13 @@ dependencies:
   fl_chart: ^1.3.0
   intl: ^0.20.3
   google_fonts: ^8.1.0
+  tflite_flutter: ^0.11.0
+  record: ^6.0.0
+  sensors_plus: ^6.1.1
+  permission_handler: ^11.3.1
+  path_provider: ^2.1.4
+  shared_preferences: ^2.3.2
+  sqflite: ^2.4.1
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +73,8 @@ flutter:
 
   assets:
     - assets/App_logo.png
+    - assets/parkimed_model.tflite
+    - assets/preprocessing_config.json
 
 flutter_launcher_icons:
   android: "launcher_icon"
