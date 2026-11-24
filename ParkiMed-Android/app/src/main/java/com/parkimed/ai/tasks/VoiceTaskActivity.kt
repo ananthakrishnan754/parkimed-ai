@@ -70,6 +70,9 @@ class VoiceTaskActivity : AppCompatActivity() {
                     binding.btnStart.isEnabled = true
                     return@post
                 }
+                // Input visualization: show the captured waveform.
+                binding.waveView.visibility = android.view.View.VISIBLE
+                binding.waveView.setAudio(audio)
                 // Other modalities deliberately absent (zeros) →
                 // attention gates will down-weight them.
                 try {

@@ -36,6 +36,8 @@
         <activity android:name=".ui.ResultsActivity" />
         <activity android:name=".ui.MedicationActivity" />
         <activity android:name=".ui.HistoryActivity" />
+        <activity android:name=".ui.SettingsActivity" />
+        <activity android:name=".ui.OnboardingActivity" />
         <activity android:name=".camera.PillCaptureActivity" />
     </application>
 </manifest>

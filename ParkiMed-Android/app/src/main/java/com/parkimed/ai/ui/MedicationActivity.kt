@@ -32,20 +32,24 @@ class MedicationActivity : AppCompatActivity() {
     }
 
     private fun scheduleDailyReminder() {
+        val prefs = com.parkimed.ai.data.UserPrefs(this)
+        val parts = prefs.doseTime.split(":")
+        val hour = parts.getOrNull(0)?.toIntOrNull()?.coerceIn(0, 23) ?: 8
+        val minute = parts.getOrNull(1)?.toIntOrNull()?.coerceIn(0, 59) ?: 0
+
         val am = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, ReminderReceiver::class.java)
         val pi = PendingIntent.getBroadcast(
             this, 0, intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
         )
-        // 8:00 AM daily
         val cal = java.util.Calendar.getInstance().apply {
-            set(java.util.Calendar.HOUR_OF_DAY, 8)
-            set(java.util.Calendar.MINUTE, 0)
+            set(java.util.Calendar.HOUR_OF_DAY, hour)
+            set(java.util.Calendar.MINUTE, minute)
             set(java.util.Calendar.SECOND, 0)
         }
         am.setRepeating(AlarmManager.RTC_WAKEUP, cal.timeInMillis,
             AlarmManager.INTERVAL_DAY, pi)
-        Toast.makeText(this, "Daily reminder set for 8:00 AM", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Daily reminder set for %02d:%02d".format(hour, minute), Toast.LENGTH_SHORT).show()
     }
 }

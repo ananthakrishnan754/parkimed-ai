@@ -144,6 +144,14 @@
                 app:strokeColor="@color/surface_border" />
         </LinearLayout>
 
+        <com.parkimed.ai.ui.WaveformView
+            android:id="@+id/waveView"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_card"
+            android:visibility="gone" />
+
         <com.parkimed.ai.ui.GaitView
             android:id="@+id/gaitDemoView"
             android:layout_width="match_parent"

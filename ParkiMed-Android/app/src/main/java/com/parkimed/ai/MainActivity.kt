@@ -10,13 +10,16 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.parkimed.ai.data.LocalStore
+import com.parkimed.ai.data.UserPrefs
 import com.parkimed.ai.tasks.SpiralTaskActivity
 import com.parkimed.ai.tasks.TapTaskActivity
 import com.parkimed.ai.tasks.VoiceTaskActivity
 import com.parkimed.ai.tasks.WalkTaskActivity
 import com.parkimed.ai.ui.HistoryActivity
 import com.parkimed.ai.ui.MedicationActivity
+import com.parkimed.ai.ui.OnboardingActivity
 import com.parkimed.ai.ui.ResultsActivity
+import com.parkimed.ai.ui.SettingsActivity
 import com.google.android.material.button.MaterialButton
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -32,10 +35,27 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val prefs = UserPrefs(this)
+        if (!prefs.onboardingDone) {
+            startActivity(Intent(this, OnboardingActivity::class.java))
+        }
+
         setContentView(R.layout.activity_main)
 
         val txtDate = findViewById<TextView>(R.id.txtDate)
         txtDate.text = SimpleDateFormat("EEEE, MMMM d", Locale.getDefault()).format(Date()).uppercase(Locale.getDefault())
+
+        // Header gear -> Settings
+        findViewById<LinearLayout>(R.id.btnSettings).setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
+        }
+        findViewById<TextView>(R.id.txtNextDose).text = buildString {
+            val med = prefs.medicationName.ifBlank { "Levodopa" }
+            val dose = prefs.medicationDose.ifBlank { "100mg" }
+            append(med); if (dose.isNotBlank()) append(" $dose")
+        }
+        findViewById<TextView>(R.id.txtDoseTime).text = prefs.doseTime.ifBlank { "08:00" }
 
         val store = LocalStore(this)
         CoroutineScope(Dispatchers.IO).launch {
