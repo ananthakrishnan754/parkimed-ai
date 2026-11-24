@@ -54,6 +54,13 @@ class MainActivity : AppCompatActivity() {
                         "Motor symptoms controlled. Voice & kinetic tests within healthy thresholds."
                     else
                         "Motor tremor or bradykinesia elevated. Check medication schedule."
+                    val stateColor = ContextCompat.getColor(this@MainActivity, if (isOn) R.color.state_on else R.color.state_off)
+                    findViewById<TextView>(R.id.txtState).setTextColor(
+                        ContextCompat.getColor(this@MainActivity, if (isOn) R.color.state_on_dark else R.color.state_off)
+                    )
+                    findViewById<TextView>(R.id.txtStatusDesc).setTextColor(
+                        ContextCompat.getColor(this@MainActivity, if (isOn) R.color.state_on_dark else R.color.state_off)
+                    )
                     findViewById<LinearLayout>(R.id.cardStatus).setBackgroundResource(if (isOn) R.drawable.bg_on_state else R.drawable.bg_off_state)
                 }
             }

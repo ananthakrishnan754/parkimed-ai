@@ -12,6 +12,7 @@
     <color name="state_on">#10B981</color>
     <color name="state_on_light">#ECFDF5</color>
     <color name="state_on_border">#A7F3D0</color>
+    <color name="state_on_dark">#065F46</color>
     <color name="state_off">#F43F5E</color>
     <color name="state_off_light">#FFF1F2</color>
     <color name="state_off_border">#FECDD3</color>

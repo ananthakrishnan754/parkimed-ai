@@ -42,7 +42,22 @@ class ResultsActivity : AppCompatActivity() {
 
     private fun render(r: AssessmentRecord, title: android.widget.TextView,
                        detail: android.widget.TextView) {
+        val isOn = r.onOff == "ON"
+        val onColor = androidx.core.content.ContextCompat.getColor(this, R.color.state_on)
+        val offColor = androidx.core.content.ContextCompat.getColor(this, R.color.state_off)
+
+        val chip = findViewById<android.widget.TextView>(R.id.tvStateChip)
+        chip.text = r.onOff
+        chip.setTextColor(if (isOn) onColor else offColor)
+
+        findViewById<android.widget.TextView>(R.id.tvSeverityBig).text =
+            "Severity: %.1f / 5.0".format(r.severity)
+
+        findViewById<android.widget.LinearLayout>(R.id.cardResult)
+            .setBackgroundResource(if (isOn) R.drawable.bg_on_state else R.drawable.bg_off_state)
+
         title.text = "Medication state: ${r.onOff}"
+        title.setTextColor(if (isOn) onColor else offColor)
         detail.text = buildString {
             appendLine("Severity: %.1f / 5".format(r.severity))
             appendLine("Confidence: %.0f%%".format(r.confidence * 100))
