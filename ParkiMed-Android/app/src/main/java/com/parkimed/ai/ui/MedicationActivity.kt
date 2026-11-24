@@ -5,8 +5,10 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.button.MaterialButton
 import com.parkimed.ai.R
 
 /**
@@ -20,10 +22,11 @@ class MedicationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_medication)
 
-        findViewById<android.widget.Button>(R.id.btnSetReminder).setOnClickListener {
+        findViewById<ImageButton>(R.id.btnBack).setOnClickListener { finish() }
+        findViewById<MaterialButton>(R.id.btnSetReminder).setOnClickListener {
             scheduleDailyReminder()
         }
-        findViewById<android.widget.Button>(R.id.btnLogPill).setOnClickListener {
+        findViewById<MaterialButton>(R.id.btnLogPill).setOnClickListener {
             startActivity(Intent(this, com.parkimed.ai.camera.PillCaptureActivity::class.java))
         }
     }

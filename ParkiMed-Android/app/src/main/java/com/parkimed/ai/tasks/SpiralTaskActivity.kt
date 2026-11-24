@@ -1,8 +1,10 @@
 package com.parkimed.ai.tasks
 
 import android.os.Bundle
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,11 +25,12 @@ class SpiralTaskActivity : AppCompatActivity() {
 
         val drawView = findViewById<SpiralDrawView>(R.id.spiralView)
 
-        findViewById<android.widget.Button>(R.id.btnSpiralClear).setOnClickListener {
+        findViewById<ImageButton>(R.id.btnBack).setOnClickListener { finish() }
+        findViewById<MaterialButton>(R.id.btnSpiralClear).setOnClickListener {
             drawView.clear()
         }
 
-        findViewById<android.widget.Button>(R.id.btnSpiralDone).setOnClickListener {
+        findViewById<MaterialButton>(R.id.btnSpiralDone).setOnClickListener {
             if (drawView.points.size < 20) {
                 Toast.makeText(this, "Draw the spiral completely first", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener

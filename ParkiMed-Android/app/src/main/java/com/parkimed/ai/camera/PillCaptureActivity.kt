@@ -1,9 +1,11 @@
 package com.parkimed.ai.camera
 
 import android.os.Bundle
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.view.PreviewView
+import com.google.android.material.button.MaterialButton
 import com.parkimed.ai.R
 
 /**
@@ -24,7 +26,8 @@ class PillCaptureActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pill_capture)
         findViewById<PreviewView>(R.id.previewView) // camera preview surface
-        findViewById<android.widget.Button>(R.id.btnConfirmPill).setOnClickListener {
+        findViewById<ImageButton>(R.id.btnBack).setOnClickListener { finish() }
+        findViewById<MaterialButton>(R.id.btnConfirmPill).setOnClickListener {
             Toast.makeText(this, "Pill intake logged (detector TODO)", Toast.LENGTH_SHORT).show()
         }
     }

@@ -63,13 +63,15 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/historyRecycler"
+    <ListView
+        android:id="@+id/historyList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="12dp"
         android:layout_weight="1"
         android:clipToPadding="false"
+        android:divider="@color/surface_border"
+        android:dividerHeight="8dp"
         android:paddingHorizontal="20dp"
         android:paddingBottom="20dp" />
 </LinearLayout>

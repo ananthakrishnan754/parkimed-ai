@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.parkimed.ai.data.AppDatabaseProvider
 import com.parkimed.ai.data.LocalStore
 import com.parkimed.ai.tasks.SpiralTaskActivity
 import com.parkimed.ai.tasks.TapTaskActivity
@@ -38,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         val txtDate = findViewById<TextView>(R.id.txtDate)
         txtDate.text = SimpleDateFormat("EEEE, MMMM d", Locale.getDefault()).format(Date()).uppercase(Locale.getDefault())
 
-        val store = LocalStore(AppDatabaseProvider.get(this))
+        val store = LocalStore(this)
         CoroutineScope(Dispatchers.IO).launch {
             val recent = store.recent(1)
             runOnUiThread {
