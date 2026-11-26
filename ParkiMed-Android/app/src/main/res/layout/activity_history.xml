@@ -63,6 +63,17 @@
             android:textStyle="bold" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/txtEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="40dp"
+        android:gravity="center"
+        android:text="No assessments yet.\nRun a task from the home screen to see it here."
+        android:textColor="@color/text_muted"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
     <ListView
         android:id="@+id/historyList"
         android:layout_width="match_parent"
@@ -70,8 +81,8 @@
         android:layout_marginTop="12dp"
         android:layout_weight="1"
         android:clipToPadding="false"
-        android:divider="@color/surface_border"
-        android:dividerHeight="8dp"
+        android:divider="@null"
+        android:dividerHeight="0dp"
         android:paddingHorizontal="20dp"
         android:paddingBottom="20dp" />
 </LinearLayout>

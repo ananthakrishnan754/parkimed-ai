@@ -31,12 +31,13 @@ class SpiralTaskActivity : AppCompatActivity() {
         }
 
         findViewById<MaterialButton>(R.id.btnSpiralDone).setOnClickListener {
-            if (drawView.points.size < 20) {
+            val (xs0, ys0) = drawView.flatCoordinates()
+            if (xs0.size < 20) {
                 Toast.makeText(this, "Draw the spiral completely first", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            val xs = drawView.points.map { it[0] }.toFloatArray()
-            val ys = drawView.points.map { it[1] }.toFloatArray()
+            val xs = xs0
+            val ys = ys0
             val model = ParkiMedModel(this)
             try {
                 val spiral = FeatureExtractor.spiral(xs, ys)

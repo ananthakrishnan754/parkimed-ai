@@ -72,8 +72,7 @@ class VoiceTaskActivity : AppCompatActivity() {
                 }
                 // Input visualization: show the captured waveform.
                 binding.waveView.visibility = android.view.View.VISIBLE
-                binding.waveView.setAudio(audio)
-                // Other modalities deliberately absent (zeros) →
+                binding.waveView.setAudio(audio)                // Other modalities deliberately absent (zeros) →
                 // attention gates will down-weight them.
                 try {
                     val voice = FeatureExtractor.uciVoice(audio, 16000)
@@ -85,6 +84,7 @@ class VoiceTaskActivity : AppCompatActivity() {
                             .use { it.write((line + "\n").toByteArray()) }
                     } catch (e: Exception) { }
                     val pred = model?.predict(voice, FloatArray(36), FloatArray(20), FloatArray(15))
+                    showVoiceSummary(voice)
                     try {
                         openFileOutput("voice_debug.txt", android.content.Context.MODE_APPEND)
                             .use { it.write(("=> ${pred?.onOff} pOn=${pred?.pOn} sev=${pred?.severity}\n").toByteArray()) }
@@ -103,6 +103,20 @@ class VoiceTaskActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    /** Human-readable summary of the extracted MDVP voice features. */
+    private fun showVoiceSummary(v: FloatArray) {
+        if (v.size < 16 || v[0] == 0f) return
+        val s = buildString {
+            appendLine("Measured from your recording:")
+            appendLine("• Fundamental pitch (Fo): %.0f Hz".format(v[0]))
+            appendLine("• Jitter (pitch instability): %.2f%%".format(v[3]))
+            appendLine("• Shimmer (loudness instability): %.1f%%".format(v[8] * 100))
+            appendLine("• HNR (voice clarity): %.1f dB".format(v[15]))
+        }
+        binding.txtVoiceSummary.visibility = android.view.View.VISIBLE
+        binding.txtVoiceSummary.text = s
     }
 
     private fun persistAndFinish(

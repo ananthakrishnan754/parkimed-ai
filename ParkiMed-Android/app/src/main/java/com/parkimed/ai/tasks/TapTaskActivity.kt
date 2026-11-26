@@ -29,6 +29,7 @@ class TapTaskActivity : AppCompatActivity() {
         binding.tapArea.setOnTouchListener { _, event ->
             collector.onTouch(event)
             binding.tapCount.text = "Taps: ${collector.tapCount}"
+            binding.rhythmView.setIntervals(collector.intervalMs.map { it.toLong() }.toLongArray())
             true
         }
 
@@ -46,6 +47,7 @@ class TapTaskActivity : AppCompatActivity() {
     private fun finishAnalyze() {
         val model = ParkiMedModel(this)
         try {
+            binding.rhythmView.setIntervals(collector.intervalMs.map { it.toLong() }.toLongArray())
             val tap = FeatureExtractor.tap(collector.intervalMs, collector.durationMs)
             val pred = model.predict(FloatArray(39), FloatArray(36), tap, FloatArray(15))
             kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
@@ -86,6 +88,7 @@ class TapTaskActivity : AppCompatActivity() {
     }
 
     private fun runDemoPrediction(intervals: LongArray) {
+        binding.rhythmView.setIntervals(intervals)
         val model = ParkiMedModel(this)
         try {
             val tap = FeatureExtractor.tap(

@@ -63,22 +63,31 @@ class ResultsActivity : AppCompatActivity() {
 
         title.text = "Medication state: ${r.onOff}"
         title.setTextColor(if (isOn) onColor else offColor)
+
+        // confidence visualization: thin progress bar under the severity
+        val confBar = findViewById<android.widget.ProgressBar>(R.id.confBar)
+        confBar.progress = (r.confidence * 100).toInt()
+
         detail.text = buildString {
             appendLine("Severity: %.1f / 5".format(r.severity))
             appendLine("Confidence: %.0f%%".format(r.confidence * 100))
             appendLine("Modalities used: ${r.sourcesUsed}")
-            appendLine("→ Why? voice P(ON)=%.2f, motion=%.2f, tap=%.2f, spiral=%.2f"
-                .format(r.voiceP, r.motionP, r.tapP, r.spiralP))
         }
 
         findViewById<com.parkimed.ai.ui.ModalityGaugesView>(R.id.gauges)
             .setValues(r.voiceP, r.motionP, r.tapP, r.spiralP)
+        findViewById<com.parkimed.ai.ui.SeverityGaugeView>(R.id.gaugeResult)
+            .setSeverity(r.severity)
+        findViewById<android.widget.TextView>(R.id.tvMeasured).text = measuredSummary(r)
 
         // --- Explanation + suggestions (offline rules; optional AI narrative) ---
+        // per-modality slots hold 0.5 for "not used"; the used modality's slot
+        // carries the model's P(ON) for that run.
         val perModality = floatArrayOf(r.voiceP, r.motionP, r.tapP, r.spiralP)
+        val truePOn = perModality.firstOrNull { it != 0.5f } ?: 0.5f
         val pred = com.parkimed.ai.model.ParkiMedModel.Prediction(
             onOff = r.onOff, severity = r.severity,
-            confidence = r.confidence, pOn = r.voiceP.coerceIn(0f, 1f),
+            confidence = r.confidence, pOn = truePOn.coerceIn(0f, 1f),
         )
         val ex = Explainer.explain(pred, perModality, r.sourcesUsed, prefs)
         findViewById<android.widget.TextView>(R.id.txtWhy).text = ex.why
@@ -97,5 +106,18 @@ class ResultsActivity : AppCompatActivity() {
         } else {
             aiNarr.visibility = View.GONE
         }
+    }
+
+    /** Plain-language description of what each used modality measures. */
+    private fun measuredSummary(r: AssessmentRecord): String = buildString {
+        val used = r.sourcesUsed.lowercase()
+        if (used.contains("voice")) appendLine("• Voice: pitch stability, jitter and shimmer of a sustained /ah/ sound")
+        if (used.contains("motion")) appendLine("• Motion: hand tremor from accelerometer/gyroscope")
+        if (used.contains("tap")) appendLine("• Tap: finger-tapping speed and rhythm irregularity")
+        if (used.contains("spiral")) appendLine("• Spiral: drawing size, stroke consistency and closure")
+        if (used.contains("gait")) appendLine("• Gait: stride cadence and balance while walking")
+        if (used.contains("demo")) appendLine("• Note: built-in demo data was used (not a live recording)")
+        if (isEmpty()) append("• ${r.sourcesUsed}")
+        append("\nAbsent modalities are gated out — they never affect this result.")
     }
 }

@@ -30,7 +30,7 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="420dp"
+            android:layout_height="360dp"
             android:layout_marginTop="16dp">
 
             <View
@@ -45,6 +45,24 @@
                 android:layout_height="match_parent"
                 android:visibility="gone" />
         </FrameLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:letterSpacing="0.05"
+            android:text="TAP RHYTHM (ms per tap · red = hesitation)"
+            android:textAllCaps="true"
+            android:textColor="@color/text_muted"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <com.parkimed.ai.ui.TapRhythmView
+            android:id="@+id/rhythmView"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_card" />
 
         <LinearLayout
             android:id="@+id/demoRow"

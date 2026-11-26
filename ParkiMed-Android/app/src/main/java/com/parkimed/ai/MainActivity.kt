@@ -66,6 +66,10 @@ class MainActivity : AppCompatActivity() {
                     val isOn = r.onOff == "ON"
                     findViewById<TextView>(R.id.txtState).text = if (isOn) "ON State" else "OFF State"
                     findViewById<TextView>(R.id.txtSeverity).text = String.format(Locale.getDefault(), "%.1f / 5.0", r.severity)
+                    findViewById<com.parkimed.ai.ui.SeverityGaugeView>(R.id.gaugeSeverity).setSeverity(r.severity)
+                    findViewById<TextView>(R.id.txtLastChecked).text = "Last assessed: " +
+                        SimpleDateFormat("dd MMM, hh:mm a", Locale.getDefault()).format(Date(r.timestamp)) +
+                        "  ·  via ${r.sourcesUsed}"
                     findViewById<TextView>(R.id.txtStatusChip).text = r.onOff
                     findViewById<TextView>(R.id.txtStatusChip).setTextColor(
                         ContextCompat.getColor(this@MainActivity, if (isOn) R.color.state_on else R.color.state_off)
@@ -74,8 +78,10 @@ class MainActivity : AppCompatActivity() {
                         "Motor symptoms controlled. Voice & kinetic tests within healthy thresholds."
                     else
                         "Motor tremor or bradykinesia elevated. Check medication schedule."
-                    val stateColor = ContextCompat.getColor(this@MainActivity, if (isOn) R.color.state_on else R.color.state_off)
                     findViewById<TextView>(R.id.txtState).setTextColor(
+                        ContextCompat.getColor(this@MainActivity, if (isOn) R.color.state_on_dark else R.color.state_off)
+                    )
+                    findViewById<TextView>(R.id.txtLastChecked).setTextColor(
                         ContextCompat.getColor(this@MainActivity, if (isOn) R.color.state_on_dark else R.color.state_off)
                     )
                     findViewById<TextView>(R.id.txtStatusDesc).setTextColor(

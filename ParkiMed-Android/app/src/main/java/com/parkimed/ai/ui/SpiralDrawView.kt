@@ -2,7 +2,7 @@ package com.parkimed.ai.ui
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
+
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.MotionEvent
@@ -18,17 +18,18 @@ class SpiralDrawView @JvmOverloads constructor(
 ) : View(context, attrs) {
 
     val points = mutableListOf<FloatArray>()   // [x, y]
-    private val strokeWidth = 6f
+    private val strokeWidth = 8f
     private val pen = Paint().apply {
-        color = Color.CYAN
+        color = 0xFF4F46E5.toInt()        // primary indigo, visible on white
         strokeWidth = strokeWidth
         strokeCap = Paint.Cap.ROUND
+        strokeJoin = android.graphics.Paint.Join.ROUND
         style = Paint.Style.STROKE
         isAntiAlias = true
     }
     private val guide = Paint().apply {
-        color = 0x33FFFFFF
-        strokeWidth = 2f
+        color = 0xFF94A3B8.toInt()          // visible slate guide on white card
+        strokeWidth = 2.5f
         style = Paint.Style.STROKE
         isAntiAlias = true
     }
@@ -51,11 +52,14 @@ class SpiralDrawView @JvmOverloads constructor(
         }
         canvas.drawPath(guidePath, guide)
 
-        // user's trace
+        // user's trace (each stroke drawn; strokes accumulate)
         if (points.size > 1) {
             val path = android.graphics.Path().apply {
                 moveTo(points[0][0], points[0][1])
-                for (i in 1 until points.size) lineTo(points[i][0], points[i][1])
+                for (i in 1 until points.size) {
+                    if (points[i].size < 2) continue
+                    lineTo(points[i][0], points[i][1])
+                }
             }
             canvas.drawPath(path, pen)
         }
@@ -63,7 +67,12 @@ class SpiralDrawView @JvmOverloads constructor(
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.actionMasked) {
-            MotionEvent.ACTION_DOWN -> { points.clear(); points.add(floatArrayOf(event.x, event.y)) }
+            MotionEvent.ACTION_DOWN -> {
+                // start a new stroke: mark break, keep earlier strokes so the
+                // user can continue the spiral after lifting a finger
+                points.add(floatArrayOf(Float.NaN, Float.NaN))
+                points.add(floatArrayOf(event.x, event.y))
+            }
             MotionEvent.ACTION_MOVE -> points.add(floatArrayOf(event.x, event.y))
             MotionEvent.ACTION_UP -> points.add(floatArrayOf(event.x, event.y))
         }
@@ -71,5 +80,14 @@ class SpiralDrawView @JvmOverloads constructor(
         return true
     }
 
-    fun clear() { points.clear(); invalidate() }
+    fun clear() {
+        points.clear()
+        invalidate()
+    }
+
+    /** Flat x/y arrays with stroke breaks (NaN) removed — for feature extraction. */
+    fun flatCoordinates(): Pair<FloatArray, FloatArray> {
+        val xs = points.filter { it.size == 2 && !it[0].isNaN() }
+        return FloatArray(xs.size) { xs[it][0] } to FloatArray(xs.size) { xs[it][1] }
+    }
 }
